@@ -20,14 +20,14 @@ test("ships the Pacific Twilight visual and motion safeguards", async () => {
     readFile(new URL("../app/layout.tsx", import.meta.url), "utf8"),
   ]);
 
-  assert.match(page, /className="ocean"/);
   assert.match(page, /className="cityGlow"/);
-  assert.match(page, /className="waterGloss"/);
+  assert.match(page, /className="motionVideo"/);
+  assert.match(page, /pacific-twilight-motion\.mp4/);
   assert.match(css, /pacific-twilight\.webp/);
-  assert.match(css, /@keyframes water-sheen/);
-  assert.match(css, /@keyframes water-glints/);
   assert.match(css, /prefers-reduced-motion:\s*reduce/);
+  assert.doesNotMatch(css, /water-sheen|water-glints/);
   assert.match(css, /@media \(max-width:\s*640px\)/);
   assert.match(layout, /Kevin Xue — Kevin77/);
   await access(new URL("../public/pacific-twilight.webp", import.meta.url));
+  await access(new URL("../public/pacific-twilight-motion.mp4", import.meta.url));
 });

@@ -35,12 +35,11 @@ body {
 
 .scene,
 .sky,
+.motionVideo,
 .haze,
-.ocean,
 .cityGlow,
 .vignette,
-.grain,
-.waterGloss {
+.grain {
   position: absolute;
   inset: 0;
 }
@@ -58,6 +57,17 @@ body {
   filter: saturate(0.88) contrast(0.96) brightness(0.82);
   transform: scale(1.045);
   animation: sky-drift 28s ease-in-out infinite alternate;
+}
+
+.motionVideo {
+  width: 100%;
+  height: 100%;
+  border: 0;
+  object-fit: cover;
+  object-position: 50% 52%;
+  filter: saturate(0.88) contrast(0.96) brightness(0.82);
+  transform: scale(1.045);
+  animation: video-reveal 1.2s ease-out both;
 }
 
 .haze {
@@ -78,73 +88,6 @@ body {
   background: radial-gradient(ellipse at 72% 62%, rgba(238, 183, 140, 0.07), transparent 38%);
   filter: blur(60px);
   animation: haze-drift-two 42s ease-in-out infinite alternate;
-}
-
-.ocean {
-  top: 56%;
-  background:
-    linear-gradient(180deg, rgba(32, 27, 37, 0.02), rgba(21, 19, 27, 0.3)),
-    repeating-linear-gradient(
-      176deg,
-      rgba(247, 208, 176, 0.034) 0,
-      rgba(247, 208, 176, 0.034) 1px,
-      transparent 1px,
-      transparent 8px
-    );
-  opacity: 0.68;
-  mix-blend-mode: screen;
-  transform-origin: 50% 100%;
-  animation: ocean-breathe 16s ease-in-out infinite alternate;
-}
-
-.waterGloss {
-  top: 56%;
-  overflow: hidden;
-  pointer-events: none;
-  mix-blend-mode: screen;
-}
-
-.waterGloss::before,
-.waterGloss::after {
-  position: absolute;
-  content: "";
-}
-
-.waterGloss::before {
-  inset: -35% -55%;
-  background: linear-gradient(
-    104deg,
-    transparent 32%,
-    rgba(255, 220, 185, 0.025) 40%,
-    rgba(255, 230, 198, 0.2) 47%,
-    rgba(255, 243, 224, 0.34) 49.5%,
-    rgba(255, 209, 164, 0.12) 53%,
-    transparent 62%
-  );
-  filter: blur(13px);
-  transform: translate3d(-14%, 0, 0) skewX(-7deg);
-  animation: water-sheen 19s cubic-bezier(0.45, 0.05, 0.55, 0.95) infinite alternate;
-}
-
-.waterGloss::after {
-  inset: 4% -15% 0;
-  background-image:
-    repeating-linear-gradient(
-      176deg,
-      transparent 0 8px,
-      rgba(255, 238, 219, 0.16) 9px,
-      transparent 10px 19px
-    ),
-    radial-gradient(ellipse at 18% 24%, rgba(255, 242, 223, 0.42) 0 0.7px, transparent 1.8px),
-    radial-gradient(ellipse at 72% 58%, rgba(255, 213, 169, 0.28) 0 0.6px, transparent 1.6px);
-  background-position: 0 0, 0 0, 80px 10px;
-  background-size: 100% 100%, 128px 23px, 173px 31px;
-  filter: blur(0.2px);
-  mask-image: linear-gradient(180deg, transparent 0%, #000 18%, #000 76%, transparent 100%);
-  opacity: 0.46;
-  transform: perspective(320px) rotateX(48deg) scale(1.25, 1.5);
-  transform-origin: 50% 0;
-  animation: water-glints 13s linear infinite;
 }
 
 .cityGlow {
@@ -219,6 +162,11 @@ body {
   }
 }
 
+@keyframes video-reveal {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
 @keyframes sky-drift {
   from { transform: scale(1.045) translate3d(-0.35%, -0.2%, 0); }
   to { transform: scale(1.065) translate3d(0.45%, 0.25%, 0); }
@@ -232,39 +180,6 @@ body {
 @keyframes haze-drift-two {
   from { transform: translate3d(2%, -1%, 0); opacity: 0.5; }
   to { transform: translate3d(-3%, 2%, 0); opacity: 0.88; }
-}
-
-@keyframes ocean-breathe {
-  from { transform: translate3d(0, 0, 0) scaleY(1); opacity: 0.42; }
-  to { transform: translate3d(-0.4%, -0.25%, 0) scaleY(1.018); opacity: 0.66; }
-}
-
-@keyframes water-sheen {
-  0% {
-    opacity: 0.48;
-    transform: translate3d(-15%, 0.8%, 0) skewX(-7deg) scaleX(0.94);
-  }
-  55% {
-    opacity: 0.82;
-  }
-  100% {
-    opacity: 0.6;
-    transform: translate3d(13%, -1%, 0) skewX(-3deg) scaleX(1.06);
-  }
-}
-
-@keyframes water-glints {
-  0% {
-    background-position: 0 0, 0 0, 80px 10px;
-    opacity: 0.32;
-  }
-  45% {
-    opacity: 0.55;
-  }
-  100% {
-    background-position: -28px 8px, 128px 5px, -93px 14px;
-    opacity: 0.38;
-  }
 }
 
 @keyframes city-breathe {
@@ -287,6 +202,11 @@ body {
     transform: scale(1.09);
   }
 
+  .motionVideo {
+    object-position: 58% 52%;
+    transform: scale(1.09);
+  }
+
   .identity {
     padding-bottom: 8svh;
   }
@@ -300,18 +220,13 @@ body {
     font-size: 0.68rem;
   }
 
-  .waterGloss::before {
-    filter: blur(10px);
-    animation-duration: 16s;
-  }
-
-  .waterGloss::after {
-    opacity: 0.38;
-    background-size: 100% 100%, 96px 21px, 139px 28px;
-  }
 }
 
 @media (prefers-reduced-motion: reduce) {
+  .motionVideo {
+    display: none;
+  }
+
   *,
   *::before,
   *::after {

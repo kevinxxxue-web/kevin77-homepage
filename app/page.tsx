@@ -3,13 +3,22 @@ export default function Home() {
     <main className="home" aria-label="Kevin Xue personal homepage">
       <div className="scene" aria-hidden="true">
         <div className="sky" />
+        <video
+          className="motionVideo"
+          autoPlay
+          muted
+          loop
+          playsInline
+          preload="metadata"
+          poster="/pacific-twilight.webp"
+        >
+          <source src="/pacific-twilight-motion.mp4" type="video/mp4" />
+        </video>
         <div className="haze hazeOne" />
         <div className="haze hazeTwo" />
-        <div className="ocean" />
         <div className="cityGlow" />
         <div className="vignette" />
         <div className="grain" />
-        <div className="waterGloss" />
       </div>
 
       <section className="identity">
