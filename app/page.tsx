@@ -9,6 +9,7 @@ export default function Home() {
         <div className="cityGlow" />
         <div className="vignette" />
         <div className="grain" />
+        <div className="waterGloss" />
       </div>
 
       <section className="identity">
