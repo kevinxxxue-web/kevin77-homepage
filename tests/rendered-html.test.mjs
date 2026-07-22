@@ -8,9 +8,10 @@ test("contains Kevin's minimal identity", async () => {
     readFile(new URL("../app/layout.tsx", import.meta.url), "utf8"),
   ]);
 
-  assert.match(page, /<h1>Kevin Xue<\/h1>/i);
+  assert.match(page, /<h1[^>]*>Kevin Xue<\/h1>/i);
   assert.match(page, /<p>aka Kevin77<\/p>/i);
   assert.match(layout, /Kevin Xue — Kevin77/);
+  assert.match(layout, /og\.png/);
 });
 
 test("ships the Pacific Twilight visual and motion safeguards", async () => {
@@ -30,4 +31,16 @@ test("ships the Pacific Twilight visual and motion safeguards", async () => {
   assert.match(layout, /Kevin Xue — Kevin77/);
   await access(new URL("../public/pacific-twilight.webp", import.meta.url));
   await access(new URL("../public/pacific-twilight-motion.mp4", import.meta.url));
+});
+
+test("includes the selected investment portfolio", async () => {
+  const page = await readFile(new URL("../app/page.tsx", import.meta.url), "utf8");
+
+  for (const company of ["XbotGo", "SATELLAI", "Fuzozo", "Cambi", "Ambi"]) {
+    assert.match(page, new RegExp(company, "i"));
+  }
+
+  assert.match(page, /Undisclosed/);
+  assert.match(page, /Consumer AI hardware/);
+  assert.match(page, /id="portfolio"/);
 });
