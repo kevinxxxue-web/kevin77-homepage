@@ -1,0 +1,232 @@
+:root {
+  --ink: #f7f2ea;
+  --warm-black: #0d0b0d;
+  color-scheme: dark;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html,
+body {
+  width: 100%;
+  min-height: 100%;
+  margin: 0;
+  background: var(--warm-black);
+}
+
+body {
+  overflow: hidden;
+  color: var(--ink);
+  font-family: Arial, Helvetica, sans-serif;
+  text-rendering: optimizeLegibility;
+}
+
+.home {
+  position: relative;
+  isolation: isolate;
+  display: grid;
+  min-height: 100svh;
+  place-items: center;
+  overflow: hidden;
+  background: #171218;
+}
+
+.scene,
+.sky,
+.haze,
+.ocean,
+.cityGlow,
+.vignette,
+.grain {
+  position: absolute;
+  inset: 0;
+}
+
+.scene {
+  z-index: -1;
+  overflow: hidden;
+}
+
+.sky {
+  inset: -3%;
+  background-image: url("/pacific-twilight.webp");
+  background-position: 50% 52%;
+  background-size: cover;
+  filter: saturate(0.88) contrast(0.96) brightness(0.82);
+  transform: scale(1.045);
+  animation: sky-drift 28s ease-in-out infinite alternate;
+}
+
+.haze {
+  inset: -20%;
+  mix-blend-mode: screen;
+  pointer-events: none;
+}
+
+.hazeOne {
+  background:
+    radial-gradient(ellipse at 24% 50%, rgba(255, 173, 103, 0.13), transparent 36%),
+    radial-gradient(ellipse at 65% 38%, rgba(156, 131, 151, 0.1), transparent 46%);
+  filter: blur(42px);
+  animation: haze-drift-one 34s ease-in-out infinite alternate;
+}
+
+.hazeTwo {
+  background: radial-gradient(ellipse at 72% 62%, rgba(238, 183, 140, 0.07), transparent 38%);
+  filter: blur(60px);
+  animation: haze-drift-two 42s ease-in-out infinite alternate;
+}
+
+.ocean {
+  top: 56%;
+  background:
+    linear-gradient(180deg, transparent, rgba(33, 27, 37, 0.18)),
+    repeating-linear-gradient(
+      176deg,
+      rgba(247, 208, 176, 0.025) 0,
+      rgba(247, 208, 176, 0.025) 1px,
+      transparent 1px,
+      transparent 9px
+    );
+  opacity: 0.6;
+  mix-blend-mode: screen;
+  transform-origin: 50% 100%;
+  animation: ocean-breathe 16s ease-in-out infinite alternate;
+}
+
+.cityGlow {
+  inset: auto 5% 20% 46%;
+  height: 18%;
+  background: radial-gradient(ellipse at 68% 54%, rgba(255, 189, 116, 0.12), transparent 56%);
+  filter: blur(18px);
+  mix-blend-mode: screen;
+  animation: city-breathe 7s ease-in-out infinite alternate;
+}
+
+.vignette {
+  background:
+    linear-gradient(180deg, rgba(16, 12, 18, 0.04) 0%, rgba(13, 10, 13, 0.04) 48%, rgba(8, 7, 9, 0.32) 100%),
+    radial-gradient(ellipse at center, transparent 38%, rgba(8, 6, 9, 0.26) 110%);
+}
+
+.grain {
+  inset: -50%;
+  width: 200%;
+  height: 200%;
+  opacity: 0.08;
+  background-image:
+    repeating-radial-gradient(circle at 18% 23%, rgba(255, 255, 255, 0.36) 0 0.35px, transparent 0.7px 3px),
+    repeating-radial-gradient(circle at 72% 64%, rgba(0, 0, 0, 0.44) 0 0.45px, transparent 0.8px 4px);
+  background-size: 7px 9px, 11px 13px;
+  mix-blend-mode: soft-light;
+  pointer-events: none;
+  animation: grain 0.24s steps(2) infinite;
+}
+
+.identity {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 2rem;
+  text-align: center;
+  text-shadow: 0 2px 32px rgba(8, 6, 9, 0.26);
+  animation: reveal 1.8s cubic-bezier(0.2, 0.65, 0.2, 1) both;
+}
+
+.identity h1 {
+  margin: 0;
+  font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+  font-size: clamp(3.5rem, 9vw, 8.5rem);
+  font-weight: 420;
+  letter-spacing: -0.064em;
+  line-height: 0.92;
+}
+
+.identity p {
+  margin: clamp(1.1rem, 2.6vw, 1.8rem) 0 0;
+  color: rgba(247, 242, 234, 0.7);
+  font-family: "SFMono-Regular", Consolas, "Liberation Mono", monospace;
+  font-size: clamp(0.72rem, 1.2vw, 0.9rem);
+  font-weight: 400;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+}
+
+@keyframes reveal {
+  from {
+    opacity: 0;
+    transform: translateY(12px);
+    filter: blur(7px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+    filter: blur(0);
+  }
+}
+
+@keyframes sky-drift {
+  from { transform: scale(1.045) translate3d(-0.35%, -0.2%, 0); }
+  to { transform: scale(1.065) translate3d(0.45%, 0.25%, 0); }
+}
+
+@keyframes haze-drift-one {
+  from { transform: translate3d(-2%, 0, 0) scale(1); opacity: 0.7; }
+  to { transform: translate3d(3%, -1.5%, 0) scale(1.06); opacity: 1; }
+}
+
+@keyframes haze-drift-two {
+  from { transform: translate3d(2%, -1%, 0); opacity: 0.5; }
+  to { transform: translate3d(-3%, 2%, 0); opacity: 0.88; }
+}
+
+@keyframes ocean-breathe {
+  from { transform: translate3d(0, 0, 0) scaleY(1); opacity: 0.42; }
+  to { transform: translate3d(-0.4%, -0.25%, 0) scaleY(1.018); opacity: 0.66; }
+}
+
+@keyframes city-breathe {
+  from { opacity: 0.42; transform: scale(0.97); }
+  to { opacity: 0.82; transform: scale(1.04); }
+}
+
+@keyframes grain {
+  0% { transform: translate3d(0, 0, 0); }
+  25% { transform: translate3d(-2%, 1%, 0); }
+  50% { transform: translate3d(1%, -2%, 0); }
+  75% { transform: translate3d(2%, 2%, 0); }
+  100% { transform: translate3d(-1%, -1%, 0); }
+}
+
+@media (max-width: 640px) {
+  .sky {
+    inset: -5%;
+    background-position: 58% 52%;
+    transform: scale(1.09);
+  }
+
+  .identity {
+    padding-bottom: 8svh;
+  }
+
+  .identity h1 {
+    font-size: clamp(3.3rem, 18vw, 5.4rem);
+    letter-spacing: -0.07em;
+  }
+
+  .identity p {
+    font-size: 0.68rem;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+  }
+}
